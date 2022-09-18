@@ -1,10 +1,12 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
     node: true
   },
   extends: [
+    'vue-global-api',
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
@@ -16,7 +18,15 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module'
   },
-  plugins: ['vue', '@typescript-eslint', 'import'],
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.vue'],
+      rules: {
+        'no-undef': 'off'
+      }
+    }
+  ],
+  plugins: ['vue', '@typescript-eslint', 'prettier', 'import'],
   rules: {
     // js/ts
     // 'no-console': ['warn', { allow: ['error'] }],
