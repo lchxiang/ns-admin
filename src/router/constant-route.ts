@@ -5,8 +5,12 @@ export const constantRouter: RouteRecordRaw[] = [
     redirect: { name: 'Login' }
   },
   {
+    path: '/',
+    redirect: { name: 'Login' }
+  },
+  {
     path: '/login',
     name: 'Login',
-    component: () => import('@/pages/login.vue')
+    component: () => import('@/pages/login/index.vue')
   }
 ]

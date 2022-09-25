@@ -1,27 +1,20 @@
 <template>
-  <a-button type="primary" @click="test">试试</a-button>
-  <span class="theme">我是主题色</span>
-  <span>{{ userStore.token }}</span>
-  <router-view></router-view>
+  <ConfigProvider>
+    <router-view />
+  </ConfigProvider>
 </template>
 <script setup lang="ts">
 import { ConfigProvider } from 'ant-design-vue'
 
-import { useUserStore } from '@/store/user'
+// import { useUserStore } from '@/store/user'
 // import {$computed} 'vue/macros'
-const color = ref({
-  primaryColor: 'red'
-})
-const userStore = useUserStore()
-const test = () => {
-  userStore.token = '666'
-  ConfigProvider.config({
-    theme: color.value
-  })
-}
 </script>
 <style lang="less">
 .theme {
+  z-index: 666;
+  width: 30px;
+  height: 60px;
+  background-color: #fff;
   color: var(--ant-primary-color);
 }
 </style>

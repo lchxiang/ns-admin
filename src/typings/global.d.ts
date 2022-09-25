@@ -1,0 +1,93 @@
+/*
+ * @Author: liwg
+ * @Date: 2022-03-19 09:14:10
+ * @LastEditors: liwg
+ * @LastEditTime: 2022-03-19 09:26:26
+ */
+import type packageJSON from '../package.json'
+import type {
+  ComponentPublicInstance,
+  ComponentRenderProxy,
+  FunctionalComponent,
+  VNode,
+  VNodeChild,
+  PropType as VuePropType
+} from 'vue'
+
+type DepInfo = {
+  url: string
+  version: string
+}
+
+declare global {
+  const __APP_INFO__: {
+    pkg: typeof packageJSON & {
+      dependencies: Record<string, DepInfo>
+      devDependencies: Record<string, DepInfo>
+    }
+    lastBuildTime: string
+  }
+
+  // vue
+  declare type PropType<T> = VuePropType<T>
+  declare type VueNode = VNodeChild | JSX.Element
+
+  export type Writable<T> = {
+    -readonly [P in keyof T]: T[P]
+  }
+  type RemoveIndex<T> = {
+    [K in keyof T as string extends K
+      ? never
+      : number extends K
+      ? never
+      : K]: T[K]
+  }
+  declare type Nullable<T> = T | null
+  declare type NonNullable<T> = T extends null | undefined ? never : T
+  declare type Recordable<T = any> = Record<string, T>
+  declare type ReadonlyRecordable<T = any> = {
+    readonly [key: string]: T
+  }
+  declare type Indexable<T = any> = {
+    [key: string]: T
+  }
+  declare type DeepPartial<T> = {
+    [P in keyof T]?: DeepPartial<T[P]>
+  }
+
+  declare type TimeoutHandle = ReturnType<typeof setTimeout>
+  declare type IntervalHandle = ReturnType<typeof setInterval>
+
+  declare interface ChangeEvent extends Event {
+    target: HTMLInputElement
+  }
+
+  declare interface WheelEvent {
+    path?: EventTarget[]
+  }
+  declare function parseInt(s: string | number, radix?: number): number
+
+  declare function parseFloat(string: string | number): number
+
+  namespace JSX {
+    // tslint:disable no-empty-interface
+    type Element = VNode
+    // tslint:disable no-empty-interface
+    type ElementClass = ComponentRenderProxy
+    interface ElementAttributesProperty {
+      $props: any
+    }
+    interface IntrinsicElements {
+      [elem: string]: any
+    }
+    interface IntrinsicAttributes {
+      [elem: string]: any
+    }
+  }
+}
+
+declare module 'vue' {
+  export type JSXComponent<Props = any> =
+    | { new (): ComponentPublicInstance<Props> }
+    | FunctionalComponent<Props>
+}

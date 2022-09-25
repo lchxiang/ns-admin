@@ -1,15 +1,16 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 
-import { ConfigEnv, loadEnv, UserConfig } from 'vite'
+import { loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify, presetIcons } from 'unocss'
+import { presetAttributify, presetIcons, presetUno } from 'unocss'
 import viteCompression from 'vite-plugin-compression' //压缩静态资源
 import legacy from '@vitejs/plugin-legacy'
+import type { ConfigEnv, UserConfig } from 'vite'
 
 export default ({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd()
@@ -35,7 +36,9 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       }),
       vueJsx(),
       AutoImport({
-        imports: ['vue', 'vue-router', 'pinia', '@vueuse/core']
+        imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
+        dts: resolve(__dirname, 'src/typings/auto-imports.d.ts'),
+        dirs: [resolve(__dirname, 'src/composables')]
       }),
       Components({
         extensions: ['vue', 'md', 'tsx', 'ts'],
@@ -46,6 +49,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
             // importLess: true
           })
         ],
+        dts: resolve(__dirname, 'src/typings/components.d.ts'),
         directoryAsNamespace: true
       }),
       Unocss({

@@ -16,10 +16,10 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "types": ["node", "vite/client"],
-    "typeRoots": ["./node_modules/@types/", "./types"],
+    "typeRoots": ["./node_modules/@types/", "./typings"],
     "paths": {
       "@/*": ["src/*"],
-      "#/*": ["types/*"]
+      "#/*": ["typings/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
