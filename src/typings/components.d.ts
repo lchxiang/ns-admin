@@ -8,7 +8,18 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
+    ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
+    AForm: typeof import('ant-design-vue/es')['Form']
+    AFormItem: typeof import('ant-design-vue/es')['FormItem']
+    AInput: typeof import('ant-design-vue/es')['Input']
+    AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
+    Application: typeof import('./../components/Application/index.ts')['default']
+    ApplicationAppProvider: typeof import('./../components/Application/AppProvider.vue')['default']
+    ChangePassword: typeof import('./../components/ChangePassword.tsx')['default']
     HelloWorld: typeof import('./../components/HelloWorld.tsx')['default']
+    LoadingCreateLoading: typeof import('./../components/Loading/createLoading.ts')['default']
+    LoadingLoading: typeof import('./../components/Loading/Loading.vue')['default']
+    LoadingTyping: typeof import('./../components/Loading/typing.ts')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

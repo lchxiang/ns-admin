@@ -42,6 +42,7 @@ declare namespace HTTP {
     count: number
     waitTime: number
   }
+
   declare type Result<T = any> = {
     code: number | string
     succeed: string

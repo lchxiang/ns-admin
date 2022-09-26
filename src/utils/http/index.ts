@@ -11,7 +11,7 @@ import { useMessage } from '@/hooks/useMessage'
 import { router } from '@/router/index'
 import httpCode from './http-code'
 import { formatRequestDate, joinTimestamp } from './helper'
-import { nsAxios } from './Axios'
+import { NsAxios } from './Axios'
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 const globSetting = getAppEnvConfig()
@@ -47,7 +47,6 @@ const transform: AxiosTransform = {
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
     const { code, data, succeed } = outData
 
-    // 这里逻辑可以根据项目进行修改
     if (succeed) {
       return data
     } else {
@@ -194,7 +193,7 @@ const transform: AxiosTransform = {
 }
 
 function createAxios(opt?: Partial<CreateAxiosOptions>) {
-  return new nsAxios(
+  return new NsAxios(
     deepMerge(
       {
         authenticationScheme: '',

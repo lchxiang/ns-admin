@@ -23,7 +23,7 @@ const [open, close] = useLoading({
 /**
  * @description:  axios module
  */
-export class nsAxios {
+export class NsAxios {
   private axiosInstance: AxiosInstance
   private readonly options: CreateAxiosOptions
 
