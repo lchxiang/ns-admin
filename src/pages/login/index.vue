@@ -1,65 +1,50 @@
 <template>
-  <a-form
-    :model="formState"
-    name="basic"
-    :label-col="{ span: 8 }"
-    :wrapper-col="{ span: 16 }"
-    autocomplete="off"
-    @finish="onFinish"
-    @finish-failed="onFinishFailed"
-  >
-    <a-form-item
-      label="Username"
-      name="username"
-      :rules="[{ required: true, message: 'Please input your username!' }]"
-    >
-      <a-input v-model:value="formState.username" />
-    </a-form-item>
-
-    <a-form-item
-      label="Password"
-      name="password"
-      :rules="[{ required: true, message: 'Please input your password!' }]"
-    >
-      <a-input-password v-model:value="formState.password" />
-    </a-form-item>
-
-    <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
-      <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
-    </a-form-item>
-
-    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-      <a-button type="primary" html-type="submit">Submit</a-button>
-    </a-form-item>
-  </a-form>
+  <div>
+    <NsForm v-model="formModel" :form-list="formList">
+      <template #test>
+        <span>看看</span>
+      </template>
+    </NsForm>
+    <span>{{ formModel }}</span>
+  </div>
 </template>
-<script lang="ts">
-import { defineComponent, reactive } from 'vue'
-
-interface FormState {
-  username: string
-  password: string
-  remember: boolean
-}
-export default defineComponent({
-  setup() {
-    const formState = reactive<FormState>({
-      username: '',
-      password: '',
-      remember: true
-    })
-    const onFinish = (values: any) => {
-      console.log('Success:', values)
-    }
-
-    const onFinishFailed = (errorInfo: any) => {
-      console.log('Failed:', errorInfo)
-    }
-    return {
-      formState,
-      onFinish,
-      onFinishFailed
-    }
+<script lang="ts" setup>
+import type { NsFormItem } from '@/packages/src/form/types'
+const formModel = ref({})
+const formList = ref<NsFormItem[]>([
+  {
+    prop: 'Input',
+    label: '名称',
+    component: 'Input',
+    defaultValue: 'liwenguang',
+    placeholder: '我试试'
+  },
+  {
+    component: 'Select',
+    prop: 'Select',
+    label: '下拉选',
+    options: ['男', '女'],
+    defaultValue: '男',
+    allowClear: true
+  },
+  {
+    component: 'Checkbox',
+    prop: 'Checkbox',
+    label: '多选',
+    options: [1, 2],
+    defaultValue: [2]
+  },
+  {
+    component: 'Radio',
+    slot: 'test',
+    label: '单选',
+    options: [1, 2],
+    defaultValue: 1
   }
+])
+watchEffect(() => {
+  const val = formModel.value
+  console.log(val)
 })
 </script>
+<style lang="less"></style>

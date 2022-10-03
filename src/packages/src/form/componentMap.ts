@@ -5,7 +5,6 @@
  * @LastEditors: liwg
  * @LastEditTime: 2022-07-12 09:40:24
  */
-
 import {
   AutoComplete,
   Cascader,
@@ -27,7 +26,8 @@ import {
 import NsRadio from '../radio/index'
 import NsCheckbox from '../checkbox'
 import NsSelect from '../select'
-import type { ComponentType } from './types/index'
+
+import type { ComponentType } from './types'
 import type { Component } from 'vue'
 
 import 'ant-design-vue/es/input/style/index'
@@ -45,7 +45,7 @@ import 'ant-design-vue/es/divider/style/index'
 import 'ant-design-vue/es/row/style/index'
 import 'ant-design-vue/es/col/style/index'
 import 'ant-design-vue/es/form/style/index'
-import('ant-design-vue/es/cascader/style/index')
+import 'ant-design-vue/es/cascader/style/index'
 
 const componentMap = new Map<ComponentType, Component>()
 
@@ -90,11 +90,22 @@ export const otherComponents = {
     props: Object.keys(Select.props)
   },
   Radio: {
-    props: Object.keys(Radio.props)
+    props: Object.keys(Radio.Group.props)
   },
   Checkbox: {
-    props: Object.keys(Checkbox.props)
+    props: Object.keys(Checkbox.Group.props)
   }
 }
+
+export type InputGroupProps = InstanceType<typeof Input.Group>['$props']
+export type InputPasswordProps = InstanceType<typeof Input.Password>['$props']
+export type InputSearchProps = InstanceType<typeof Input.Search>['$props']
+export type NsCheckboxProps = InstanceType<typeof NsCheckbox>['$props']
+export type NsSelectProps = InstanceType<typeof NsSelect>['$props']
+export type NsRadioProps = InstanceType<typeof NsRadio>['$props']
+
+export type RangePickerProps = InstanceType<
+  typeof DatePicker.RangePicker
+>['$props']
 
 export { componentMap }

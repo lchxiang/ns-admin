@@ -12,9 +12,8 @@
  * @LastEditors: liwg
  * @LastEditTime: 2022-09-19 16:16:19
  */
-import { InjectionKey, Ref } from 'vue'
-
 import { createContext, useContext } from './useContext'
+import type { InjectionKey, Ref } from 'vue'
 
 export interface AppProviderContextProps {
   isMobile: Ref<boolean>

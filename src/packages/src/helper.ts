@@ -5,9 +5,9 @@
  * @LastEditors: liwg
  * @LastEditTime: 2022-07-12 09:41:16
  */
+import { isFunction } from '@/utils/is'
 import type { Slots } from 'vue'
 
-import { isFunction } from '@/utils/is'
 /**
  * 根据字符串找到对象中对应的值
  * 例如在obj中查找 obj.data.list.page对应的值

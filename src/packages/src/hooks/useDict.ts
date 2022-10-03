@@ -1,26 +1,38 @@
 import { computed, ref, unref, watchEffect } from 'vue'
-import isPlainObject from 'lodash-es/isPlainObject'
-
-import { getValueByPath } from '../helper'
 import http from '@/utils/http'
+import { isBoolean, isNumber, isObject, isString } from '@/utils/is'
+import { getValueByPath } from '../helper'
+import { useNsProviderContext } from './useNsContext'
 
-// import  { EmitFn } from 'vue'
-export function useDict(props: Recordable) {
+import type { DictProps } from '../dict-props'
+export function useDict(props: DictProps) {
+  const { labelKey: gLabelKey, valueKey: gValueKey } = $(useNsProviderContext())
   const innerDicData = ref<unknown[]>([])
   const { url, proxy, ajaxData, resultPath } = props
   //格式化字典数据 支持[1,2,3,4]这种字典数据
   const formatterDicData = computed(() => {
-    const { options = [], url, labelKey, valueKey } = props
-    const realDicData = url || proxy ? unref(innerDicData) : options
-    if (realDicData.length && isPlainObject(realDicData[0])) {
+    const {
+      options = [],
+      url,
+      labelKey = gLabelKey,
+      valueKey = gValueKey
+    } = props
+    const realDicData: Recordable = url || proxy ? unref(innerDicData) : options
+    const first = realDicData[0]
+    if (realDicData.length > 0 && isObject(first)) {
       return realDicData || []
+    } else if (
+      realDicData.length > 0 &&
+      (isString(first) || isNumber(first) || isBoolean(first))
+    ) {
+      return realDicData.map((item: string | number | Boolean) => {
+        return {
+          [labelKey]: item,
+          [valueKey]: item
+        }
+      })
     }
-    return realDicData.map((item: string | number | Boolean) => {
-      return {
-        [labelKey]: item,
-        [valueKey]: item
-      }
-    })
+    return realDicData || []
   })
 
   //内部请求字典数据
@@ -38,24 +50,6 @@ export function useDict(props: Recordable) {
     }
     innerDicData.value = list || []
   })
-
-  //   const realLableKey = computed(() => {
-  //     const { dicUrl, labelKey } = props
-  //     if (dicUrl.includes('sysDictDetail')) {
-  //       return 'dictName'
-  //     }
-  //     return labelKey
-  //   })
-
-  //   const realListKey = computed(() => {
-  //     const { dicUrl, ajaxData, listKey } = props
-  //     return dicUrl.includes('sysDictDetail') ? `data.${ajaxData[0]}` : listKey
-  //   })
-
-  //   const realValueKey = computed(() => {
-  //     const { dicUrl, valueKey } = props
-  //     return dicUrl.includes('sysDictDetail') ? 'dictCode' : valueKey
-  //   })
 
   return {
     formatterDicData

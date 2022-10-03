@@ -60,7 +60,12 @@ export function isNumber(val: unknown): val is number {
 }
 
 export function isPromise<T = any>(val: unknown): val is Promise<T> {
-  return is(val, 'Promise') && isObject(val) && isFunction(val.then) && isFunction(val.catch)
+  return (
+    is(val, 'Promise') &&
+    isObject(val) &&
+    isFunction(val.then) &&
+    isFunction(val.catch)
+  )
 }
 
 export function isString(val: unknown): val is string {
@@ -101,6 +106,6 @@ export const isClient = !isServer
 
 export function isUrl(path: string): boolean {
   const reg =
-    /(((^https?:(?:\/\/)?)(?:[-;:&=\\+\\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\\+\\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\\+~%\\/.\w-_]*)?\??(?:[-\\+=&;%@.\w_]*)#?(?:[\w]*))?)$/
+    /(((^https?:(?:\/\/)?)(?:[\w$&+,:;=\\-]+@)?[\d.A-Za-z-]+(?::\d+)?|(?:www.|[\w$&+,:;=\\-]+@)[\d.A-Za-z-]+)((?:\/[%+./\\~\w-_]*)?\??[\w%&+.;=@\\-]*#?\w*)?)$/
   return reg.test(path)
 }

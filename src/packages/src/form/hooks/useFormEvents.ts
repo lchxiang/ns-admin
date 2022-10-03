@@ -1,14 +1,17 @@
+import { nextTick, toRaw, unref } from 'vue'
+import { cloneDeep, isArray, isEqual } from 'lodash-es'
+import { deepMerge } from '@/utils/utils'
+import { isObject } from '@/utils/is'
+import type { ComputedRef, Ref } from 'vue'
+import type { FormActionType, NsForm, NsFormItem } from './../types/form'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 
-import { unref, toRaw, nextTick, ComputedRef, Ref } from 'vue'
-import { isArray, isEqual, isPlainObject, cloneDeep } from 'lodash-es'
-
-import { NsFormItem, FormActionType, NsForm } from './../types/form'
-import { deepMerge } from '@/utils/utils'
-
 interface UseFormEvents {
-  emit: EmitType
-  innerFormListRef: Ref<Nullable<NsFormItem[]>>
+  emit: (
+    event: 'submit' | 'reset' | 'update:modelValue' | 'register',
+    ...args: any[]
+  ) => void
+  innerFormList: Ref<Nullable<NsFormItem[]>>
   realProps: ComputedRef<Partial<NsForm>>
   realFormList: ComputedRef<NsFormItem[]>
   formModel: Recordable
@@ -19,7 +22,7 @@ interface UseFormEvents {
 }
 
 export function useFormEvents({
-  innerFormListRef,
+  innerFormList,
   realProps,
   realFormList,
   emit,
@@ -39,7 +42,6 @@ export function useFormEvents({
 
   //重置表单数据
   function resetFormValue() {
-    // formModel.value = JSON.parse(JSON.stringify(defaultFormModel.value))
     const defaultValue = JSON.parse(JSON.stringify(defaultFormModel.value))
     Object.entries(defaultValue).forEach(([key, value]: [string, any]) => {
       formModel.value[key] = value
@@ -47,7 +49,6 @@ export function useFormEvents({
         unref(formItemRefs?.[key])?.triggerEvent?.(value)
       })
     })
-
     setTimeout(() => {
       clearValidate()
     })
@@ -55,16 +56,25 @@ export function useFormEvents({
   }
 
   // 设置表单数据
+  // eslint-disable-next-line require-await
   async function setFormValue(values: Recordable) {
-    if (!Object.keys(defaultFormModel.value).length) return
+    if (Object.keys(defaultFormModel.value).length === 0) return
     // const { modelValue } = unref(realProps)
     //TODO: ref使用时  防止重复同步数据  同步到完全一致不再同步 后续其他方案
-    if (isEqual(values, formModel.value) && Object.keys(formModel.value).length) return
+    if (
+      isEqual(values, formModel.value) &&
+      Object.keys(formModel.value).length > 0
+    )
+      return
     if (JSON.stringify(values) === '{}') {
       resetFormValue()
     } else if (values) {
       Object.entries(values).forEach(([key, val]) => {
-        if (formModelKeyList.value.includes(key) && val !== null && val !== undefined) {
+        if (
+          formModelKeyList.value.includes(key) &&
+          val !== null &&
+          val !== undefined
+        ) {
           formModel.value[key] = val
           nextTick(() => {
             unref(formItemRefs?.[key])?.triggerEvent?.(val)
@@ -97,12 +107,12 @@ export function useFormEvents({
   //大杀器遍历更新
   function mapFormItem(callback: Fn) {
     const formList = cloneDeep(unref(realFormList))
-    const updateFormList = formList.map(callback)
-    innerFormListRef.value = updateFormList
+    const updateFormList = formList.map((item, index) => callback(item, index))
+    innerFormList.value = updateFormList
   }
 
   function updateFormList(data: Partial<NsFormItem> | Partial<NsFormItem>[]) {
-    const list: Partial<NsFormItem>[] = isPlainObject(data)
+    const list: Partial<NsFormItem>[] = isObject(data)
       ? [data]
       : isArray(data)
       ? [...data]
@@ -112,7 +122,8 @@ export function useFormEvents({
       const updateItem = list.find(
         (citem) =>
           (Reflect.has(citem, 'prop') && citem.prop === item.prop) ||
-          (Reflect.has(citem, 'updateKey') && citem.updateKey === item.updateKey)
+          (Reflect.has(citem, 'updateKey') &&
+            citem.updateKey === item.updateKey)
       )
       if (updateItem) {
         formList.push(deepMerge(item, updateItem))
@@ -120,12 +131,12 @@ export function useFormEvents({
         formList.push(item)
       }
     })
-    innerFormListRef.value = formList
+    innerFormList.value = formList
   }
 
   function resetFormList(data: Partial<NsFormItem> | Partial<NsFormItem>[]) {
-    const list = isPlainObject(data) ? [data] : isArray(data) ? [...data] : []
-    innerFormListRef.value = list
+    const list = isObject(data) ? [data] : isArray(data) ? [...data] : []
+    innerFormList.value = list
   }
 
   function removeFormListByField() {

@@ -36,8 +36,8 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       }),
       vueJsx(),
       AutoImport({
-        imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
-        dts: resolve(__dirname, 'src/typings/auto-imports.d.ts'),
+        imports: ['vue', 'vue/macros', 'vue-router', 'pinia', '@vueuse/core'],
+        dts: resolve(__dirname, 'src/types/auto-imports.d.ts'),
         dirs: [resolve(__dirname, 'src/composables')]
       }),
       Components({
@@ -49,7 +49,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
             // importLess: true
           })
         ],
-        dts: resolve(__dirname, 'src/typings/components.d.ts'),
+        dts: resolve(__dirname, 'src/types/components.d.ts'),
         directoryAsNamespace: true
       }),
       Unocss({
@@ -74,7 +74,11 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         less: {
           javascriptEnabled: true,
           modifyVars: {
-            'root-entry-name': 'default'
+            'root-entry-name': 'default',
+            hack: `
+            true;
+            @import "${resolve('./src/styles/_var.less')}"; 
+            `
           }
         }
       }

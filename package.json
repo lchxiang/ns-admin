@@ -21,12 +21,13 @@
     "pinia": "^2.0.22",
     "pinia-plugin-persistedstate": "^2.2.0",
     "qs": "^6.11.0",
-    "vue": "^3.2.37",
+    "vue": "3.2.40",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
-    "@lchxiang/eslint-config": "0.0.5",
+    "@lchxiang/eslint-config": "0.0.6",
     "@lchxiang/stylelint-config": "1.0.4",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
@@ -54,6 +55,7 @@
     "vite": "^3.1.0",
     "vite-plugin-compression": "^0.5.1",
     "vue-global-api": "^0.4.1",
-    "vue-tsc": "^0.40.4"
+    "vue-tsc": "^0.40.4",
+    "vue-types": "^4.2.1"
   }
 }

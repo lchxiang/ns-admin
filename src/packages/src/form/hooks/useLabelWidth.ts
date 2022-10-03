@@ -1,13 +1,19 @@
+import { computed, unref } from 'vue'
+import { isNumber } from '@/utils/is'
 import type { Ref } from 'vue'
 import type { NsForm, NsFormItem } from '../types/form'
 
-import { computed, unref } from 'vue'
-
-import { isNumber } from '@/utils/is'
-
-export function useItemLabelWidth(formItem: Ref<NsFormItem>, propsRef: Ref<NsForm>) {
+export function useItemLabelWidth(
+  formItem: Ref<NsFormItem>,
+  propsRef: Ref<NsForm>
+) {
   return computed(() => {
-    const { labelCol = {}, wrapperCol = {}, labelWidth, disabledLabelWidth } = unref(formItem) || {}
+    const {
+      labelCol = {},
+      wrapperCol = {},
+      labelWidth,
+      disabledLabelWidth
+    } = unref(formItem) || {}
 
     const {
       labelWidth: globalLabelWidth,
@@ -16,7 +22,10 @@ export function useItemLabelWidth(formItem: Ref<NsFormItem>, propsRef: Ref<NsFor
       layout
     } = unref(propsRef)
 
-    if ((!globalLabelWidth && !labelWidth && !globalLabelCol) || disabledLabelWidth) {
+    if (
+      (!globalLabelWidth && !labelWidth && !globalLabelCol) ||
+      disabledLabelWidth
+    ) {
       labelCol.style = {
         textAlign: 'left'
       }
@@ -35,7 +44,9 @@ export function useItemLabelWidth(formItem: Ref<NsFormItem>, propsRef: Ref<NsFor
     return {
       labelCol: { style: { width }, ...col },
       wrapperCol: {
-        style: { width: layout === 'vertical' ? '100%' : `calc(100% - ${width})` },
+        style: {
+          width: layout === 'vertical' ? '100%' : `calc(100% - ${width})`
+        },
         ...wrapCol
       }
     }
