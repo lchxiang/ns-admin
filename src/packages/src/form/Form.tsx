@@ -5,7 +5,7 @@ import { useFormEvents } from './hooks/useFormEvents'
 import FormItem from './FormItem'
 import { formProps } from './types'
 import { getSlot } from './../helper'
-import type { NsForm, NsFormItem } from './types'
+import type { NsForm, NsFormExpose, NsFormItem } from './types'
 export default defineComponent({
   name: 'NsForm',
   inheritAttrs: false,
@@ -191,7 +191,8 @@ export default defineComponent({
       validateFields,
       clearValidate,
       resetFormValue
-    })
+    } as NsFormExpose)
+
     const getFormClass = $computed(() => {
       return ['ns-form', `ns-form--${props.type}`]
     })

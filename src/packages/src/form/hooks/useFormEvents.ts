@@ -3,7 +3,7 @@ import { cloneDeep, isArray, isEqual } from 'lodash-es'
 import { deepMerge } from '@/utils/utils'
 import { isObject } from '@/utils/is'
 import type { ComputedRef, Ref } from 'vue'
-import type { FormActionType, NsForm, NsFormItem } from './../types/form'
+import type { FormActionType, NsForm, NsFormItem } from './../types'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 
 interface UseFormEvents {

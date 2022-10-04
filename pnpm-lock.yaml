@@ -44,6 +44,8 @@ specifiers:
   vue-router: ^4.1.5
   vue-tsc: ^0.40.4
   vue-types: ^4.2.1
+  vxe-table: ^4.3.5
+  xe-utils: ^3.5.7
 
 dependencies:
   '@ant-design/icons-vue': 6.1.0_vue@3.2.40
@@ -57,6 +59,8 @@ dependencies:
   qs: 6.11.0
   vue: 3.2.40
   vue-router: 4.1.5_vue@3.2.40
+  vxe-table: 4.3.5_vue@3.2.40+xe-utils@3.5.7
+  xe-utils: 3.5.7
 
 devDependencies:
   '@lchxiang/eslint-config': 0.0.6_eslint@8.23.0+vue@3.2.40
@@ -4962,6 +4966,16 @@ packages:
       '@vue/shared': 3.2.40
     dev: false
 
+  /vxe-table/4.3.5_vue@3.2.40+xe-utils@3.5.7:
+    resolution: {integrity: sha512-JEvGAs7SBN1rWn5f2tkoRiXd/rAT7RfnDTTlFsHsTtASiUTKNTISI2WBsVeLkkNRTs0SXh6FgrYsIPO2soSBXA==}
+    peerDependencies:
+      vue: ^3.2.28
+      xe-utils: ^3.5.0
+    dependencies:
+      vue: 3.2.40
+      xe-utils: 3.5.7
+    dev: false
+
   /warning/4.0.3:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
     dependencies:
@@ -5018,6 +5032,10 @@ packages:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: true
+
+  /xe-utils/3.5.7:
+    resolution: {integrity: sha512-3H+fDBKBR2wLJgyA7k9C/w1Xljx6Maml5ukV0WDY06HjYyGs2FEz6XhcwRCLIDXX4pBP3Gu0nX9DbCeuuRA2Ew==}
+    dev: false
 
   /xml-name-validator/4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}

@@ -5,19 +5,21 @@
  * @LastEditTime: 2022-07-03 20:52:53
  */
 import { vueTypes } from '@/utils/vueTypes'
-import type { ExtractPropTypes, PropType, VNode } from 'vue'
+import type {
+  ComponentPublicInstance,
+  ExtractPropTypes,
+  PropType,
+  VNode
+} from 'vue'
 import type { NamePath, RuleObject } from 'ant-design-vue/lib/form/interface'
-import type { ButtonProps, ColProps } from 'ant-design-vue'
+import type { ColProps } from 'ant-design-vue'
 export type Rule = RuleObject & {
   trigger?: 'blur' | 'change' | ['change', 'blur']
 }
 
-export interface NsFormBtn extends ButtonProps {
-  text: string
-  show: boolean
-}
+export type NsFormInstance = ComponentPublicInstance<NsForm, NsFormExpose>
 
-export type NsForm = ExtractPropTypes<typeof formProps>
+export type NsForm = Partial<ExtractPropTypes<typeof formProps>>
 
 export interface NsFormItem {
   component?: ComponentType
@@ -96,6 +98,13 @@ export interface TipsProps {
   position: any
 }
 
+export interface NsFormExpose {
+  validate: (nameList?: NamePath[] | undefined) => Promise<any>
+  validateFields: (namePath?: NamePath[] | undefined) => void
+  clearValidate: (props?: string | string[] | undefined) => void
+  resetFormValue: () => void
+}
+
 export const formProps = {
   modelValue: vueTypes.object,
   type: vueTypes.oneOf(['search', 'normal', undefined] as const).def('normal'),
@@ -122,18 +131,6 @@ export const formProps = {
   labelWidth: {
     type: [String, Number] as PropType<string | number>,
     default: 80
-  },
-  searchBtn: {
-    type: Object as PropType<Partial<NsFormBtn>>,
-    default: () => ({})
-  },
-  resetBtn: {
-    type: Object as PropType<Partial<NsFormBtn>>,
-    default: () => ({})
-  },
-  searchLoading: {
-    type: Boolean,
-    default: false
   },
   formFormat: {
     type: Function as PropType<Fn>
