@@ -18,13 +18,17 @@ export const operationProps = {
   operationList: {
     type: Array as PropType<NsButtonProps[]>,
     default: () => []
+  },
+  // 操作设置
+  operationConfig: {
+    type: Object as PropType<OperationConfig>,
+    default: () => ({})
   }
 }
 
 export const nsTableProps = {
   gridConfig: {
-    type: Object as PropType<VxeGridProps>,
-    default: () => ({})
+    type: Object as PropType<VxeGridProps>
   },
   formList: {
     type: Array as PropType<NsFormItem[]>,
@@ -42,15 +46,6 @@ export const nsTableProps = {
   btnList: {
     type: Array as PropType<NsButtonProps[]>,
     default: () => []
-  },
-  operationList: {
-    type: Array as PropType<NsButtonProps[]>,
-    default: () => []
-  },
-  // 操作设置
-  operationConfig: {
-    type: Object as PropType<OperationConfig>,
-    default: () => ({})
   },
   loadSuccess: {
     type: Function as PropType<Fn>
@@ -74,5 +69,6 @@ export const nsTableProps = {
   resultFiled: {
     type: String as PropType<string>,
     default: 'data.list'
-  }
+  },
+  ...operationProps
 }

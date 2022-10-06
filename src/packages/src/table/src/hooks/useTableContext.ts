@@ -6,13 +6,11 @@
  * @LastEditTime: 2022-09-19 16:28:15
  */
 import { createContext, useContext } from '@/hooks/useContext'
-import type { NsButtonProps, OperationConfig, permitType } from './../types'
-import type { InjectionKey, Ref } from 'vue'
+import type { permitType } from '../types'
+import type { ComputedRef, InjectionKey } from 'vue'
 
 export interface tableProviderContextProps {
-  operationsConfig: Ref<OperationConfig>
-  permit: Ref<permitType | undefined>
-  operationList: Ref<NsButtonProps[]>
+  permit: ComputedRef<permitType | undefined>
 }
 
 const key: InjectionKey<tableProviderContextProps> = Symbol()

@@ -7,7 +7,11 @@ export default defineComponent({
   setup(props) {
     return () => {
       const { btnList } = props
-      const renderDropdown = ({ children, text, ...rest }: NsButtonProps) => {
+      const renderDropdown = ({
+        children = [],
+        text,
+        ...rest
+      }: NsButtonProps) => {
         const overlay = {
           overlay: () =>
             children.map((item, index) => {
@@ -34,7 +38,9 @@ export default defineComponent({
         </a-button>
       )
       return btnList.map((item) => {
-        return item.children.length > 0 ? renderDropdown(item) : renderBtn(item)
+        return item.children && item.children.length > 0
+          ? renderDropdown(item)
+          : renderBtn(item)
       })
     }
   }

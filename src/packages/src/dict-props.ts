@@ -1,6 +1,5 @@
 import { vueTypes } from '@/utils/vueTypes'
 import type { ExtractPropTypes } from 'vue'
-
 export const dictProps = {
   labelKey: vueTypes.string.def('name'),
   valueKey: vueTypes.string.def('id'),

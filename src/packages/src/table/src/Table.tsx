@@ -4,15 +4,19 @@ import merge from 'lodash-es/merge'
 import cloneDeep from 'lodash-es/cloneDeep'
 import isUndefined from 'lodash-es/isUndefined'
 import { filterTree } from 'xe-utils'
+import pick from 'lodash-es/pick'
 import http from '@/utils/http'
 import { isArray, isBoolean, isFunction, isObject, isString } from '@/utils/is'
 import { getValueByPath } from '../../helper'
+import NsForm from '../../form/index'
+import { initDefaultProps } from '../../_utils/props'
+import { globalConfig } from '../../global-config'
+import { useNsProviderContext } from '../../hooks/useNsContext'
 import { nsTableProps } from './props'
 import Operations from './Operations'
-import NsForm from './../../form/index'
 import Btns from './Btns'
 import { createTableProviderContext } from './hooks/useTableContext'
-import type { NsFormInstance } from './../../form/index'
+import type { NsFormInstance } from '../../form/index'
 import type {
   NsColumnProps,
   NsTableExpose,
@@ -22,44 +26,31 @@ import type {
 import type { VxeGridInstance, VxeGridProps } from 'vxe-table'
 export default defineComponent({
   name: 'NsTable',
-  props: nsTableProps,
+  props: initDefaultProps(
+    nsTableProps,
+    pick(globalConfig, ['gridConfig', 'operationConfig'])
+  ),
   emits: ['register'],
   setup: (props, { slots, emit, expose }) => {
     const vxeGridRef = ref<VxeGridInstance>()
     const searchFormRef = ref<NsFormInstance>()
     let innerProps = $ref<NsTableProps>({})
     const searchFormModel = $ref({})
-
-    ///////////////////////////////////////props////////////////////////////////////
+    const {
+      gridConfig: globalGridConfig,
+      operationConfig: globalOperationConfig
+    } = $(useNsProviderContext())
+    //============================================props============================================
     async function setProps(gridProps: NsTableProps) {
       innerProps = merge(innerProps || {}, gridProps)
     }
     const realProps = $computed(() => {
       return { ...props, ...innerProps }
     })
-    ///////////////////////////////////////GridConfig////////////////////////////////////
+    //============================================GridConfig============================================
     //默认配置
     const defaultGridConfig: VxeGridProps = {
-      border: 'none',
-      stripe: true,
-      highlightHoverRow: true,
-      showOverflow: 'tooltip',
-      showHeaderOverflow: false,
-      autoResize: true,
-      resizable: false,
-      pagerConfig: {
-        enabled: true,
-        pageSize: 10,
-        border: true,
-        layouts: ['PrevPage', 'JumpNumber', 'NextPage', 'Sizes', 'Total'],
-        pageSizes: [10, 20, 50, 100, 500]
-      },
       proxyConfig: {
-        autoLoad: true,
-        props: {
-          result: 'data.list',
-          total: 'data.total'
-        },
         ajax: {
           query: tableAjax
         }
@@ -68,18 +59,16 @@ export default defineComponent({
         slots: {
           buttons: 'toolbar_buttons'
         }
-      },
-      rowConfig: {
-        useKey: false
-      },
-      columnConfig: {
-        minWidth: '100px',
-        resizable: false
       }
     }
-    //最终表格配置
+    //全局匹配置、组件自定义配置、默认配置合并=>最终表格配置
     const realGridConfig = $computed(() => {
-      const config = merge({}, defaultGridConfig, realProps.gridConfig || {})
+      const config = merge(
+        {},
+        defaultGridConfig,
+        realProps.gridConfig || {},
+        globalGridConfig || {}
+      )
       return config
     })
 
@@ -101,7 +90,7 @@ export default defineComponent({
               url,
               data: { currentPage, pageSize, ...copyFormParams, ...params }
             },
-            { formData: isFormData }
+            { formData: isFormData, isTransformResponse: false }
           )
           .then((res) => {
             if (isFunction(loadSuccess)) {
@@ -120,26 +109,27 @@ export default defineComponent({
       })
     }
 
-    ///////////////////////////////////////操作配置////////////////////////////////////
+    //============================================操作配置============================================
+
     const realOperationsConfig = $computed(() => {
-      const defaultConfig = {
-        operationMore: '更多',
-        onlyShowIcon: false,
-        autoDropdown: true,
-        show: true,
-        dropdownDefaultShowNum: 2,
-        dropdownMaxNum: 4
-      }
-      return merge({}, defaultConfig, realProps.operationConfig || {})
+      const k = merge(
+        globalConfig.operationConfig,
+        realProps.operationConfig || {},
+        globalOperationConfig || {}
+      )
+      return k
     })
 
-    //首次过滤操作列
+    //首次过滤操作列 此处只过滤操作权限  都没权限时 不显示操作列
     const permitOperations = $computed(() => {
       const { operationList = [], permit } = realProps
       const copyoperations = cloneDeep(operationList)
       if (operationList && operationList.length > 0) {
         return copyoperations.filter((item) => {
-          return item.text || (permit && permit(item.code))
+          return (
+            (isFunction(permit) && (permit(item.code) || !item.isPermit)) ||
+            !permit
+          )
         })
       }
       return []
@@ -147,6 +137,7 @@ export default defineComponent({
 
     ///////////////////////////////////////列配置////////////////////////////////////
     let columnSlotsName = $ref<string[]>([])
+
     //columns 处理
     const realColumns = $computed(() => {
       const copyColumns = cloneDeep(unref(realProps).columns || [])
@@ -212,13 +203,10 @@ export default defineComponent({
       emit('register', methods)
     })
 
-    createTableProviderContext(
-      $$({
-        operationList: permitOperations,
-        operationsConfig: realOperationsConfig,
-        permit: $computed(() => realProps.permit)
-      })
-    )
+    const permit = computed(() => realProps.permit)
+    createTableProviderContext({
+      permit
+    })
 
     expose({
       vxeGridRef,
@@ -229,6 +217,7 @@ export default defineComponent({
     } as NsTableExpose)
 
     return () => {
+      console.log(realOperationsConfig, 1410)
       const { formConfig, formList, btnList } = props
       const renderForm = () => {
         return (
@@ -246,7 +235,13 @@ export default defineComponent({
       }
       const renderTable = () => {
         const gridSlots = {
-          operation: (scope) => <Operations {...scope}></Operations>,
+          operation: (scope) => (
+            <Operations
+              {...scope}
+              operationList={permitOperations}
+              operationConfig={realOperationsConfig}
+            ></Operations>
+          ),
           toolbar_buttons: () => <Btns btnList={btnList}></Btns>
         }
         columnSlotsName.forEach((name) => {

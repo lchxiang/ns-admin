@@ -207,7 +207,8 @@ export default defineComponent({
         ]
         const itemSlot = formItem.slot
           ? {
-              [formItem.slot]: getSlot(slots, formItem.slot, formModel.value)
+              [formItem.slot]: () =>
+                getSlot(slots, formItem.slot, formModel.value)
             }
           : null
         return (

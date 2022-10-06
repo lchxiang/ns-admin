@@ -10,6 +10,10 @@ import Unocss from 'unocss/vite'
 import { presetAttributify, presetIcons, presetUno } from 'unocss'
 import viteCompression from 'vite-plugin-compression' //压缩静态资源
 import legacy from '@vitejs/plugin-legacy'
+import {
+  VxeTableResolve,
+  createStyleImportPlugin
+} from 'vite-plugin-style-import'
 import type { ConfigEnv, UserConfig } from 'vite'
 
 export default ({ mode }: ConfigEnv): UserConfig => {
@@ -35,6 +39,9 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         reactivityTransform: true
       }),
       vueJsx(),
+      createStyleImportPlugin({
+        resolves: [VxeTableResolve()]
+      }),
       AutoImport({
         imports: ['vue', 'vue/macros', 'vue-router', 'pinia', '@vueuse/core'],
         dts: resolve(__dirname, 'src/types/auto-imports.d.ts'),
@@ -90,6 +97,19 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+        }
+      }
+    },
+    server: {
+      port: 9527,
+      open: true,
+      hmr: true,
+      proxy: {
+        '/apins': {
+          target:
+            'https://www.fastmock.site/mock/9ce6483c3aa7273b5704990b02622511/apins',
+          secure: false,
+          rewrite: (path) => path.replace(/^\/apins/, '')
         }
       }
     }

@@ -6,16 +6,8 @@
  * @LastEditTime: 2022-09-19 16:28:15
  */
 import { createContext, useContext } from '@/hooks/useContext'
-import type { InjectionKey, Ref } from 'vue'
-
-export interface NsProviderContextProps {
-  dateFormat: Ref<string>
-  dateValueFormat: Ref<string>
-  timeFormat: Ref<string>
-  timeValueFormat: Ref<string>
-  valueKey: Ref<string>
-  labelKey: Ref<string>
-}
+import type { InjectionKey } from 'vue'
+import type { GlobalConfigRef as NsProviderContextProps } from './../global-config'
 
 const key: InjectionKey<NsProviderContextProps> = Symbol()
 
