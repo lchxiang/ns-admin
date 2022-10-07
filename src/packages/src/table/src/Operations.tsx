@@ -1,5 +1,8 @@
 import { DownOutlined } from '@ant-design/icons-vue'
+import { isFunction } from 'xe-utils'
+import { isBoolean, isString } from '@/utils/is'
 import { operationProps } from './props'
+import { useTableProviderContext } from './hooks/useTableContext'
 import type { NsButtonProps, NsTableBtnParams, OperationConfig } from './types'
 import type { ExtractPropTypes } from 'vue'
 import type { VxeTableDefines } from 'vxe-table'
@@ -10,33 +13,51 @@ export default defineComponent({
   name: 'GridBtns',
   inheritAttrs: false,
   props: operationProps,
-  emits: ['click'],
   setup(props, { attrs }) {
+    const { permit } = $(useTableProviderContext())
     const allProps = $computed(() => {
       return { ...props, ...attrs } as unknown as OperationAllProps
     })
     const { operationConfig, row } = allProps
     const { dropdownMaxNum, dropdownDefaultShowNum } =
       operationConfig as OperationConfig
+    //此处是数据权限的过滤
+    const realOperationList = $computed(() => {
+      return allProps.operationList.filter(({ show, code }) => {
+        const params: NsTableBtnParams = { row, code }
+        if (isFunction(show)) {
+          return show(params)
+        } else if (isBoolean(show)) {
+          return show
+        } else if (isString(show)) {
+          return eval(show)
+        } else {
+          return true
+        }
+      })
+    })
+
+    const getText = ({ text, alias }: NsButtonProps) => {
+      return text || alias || permit?.()
+    }
+
+    //是否下拉
     const isDropdown = $computed(() => {
-      return allProps.operationList.length > (dropdownMaxNum as number)
+      return realOperationList.length > (dropdownMaxNum as number)
     })
     const outerOperations = $computed(() => {
       return !isDropdown
-        ? allProps.operationList
-        : allProps.operationList.slice(0, dropdownDefaultShowNum)
+        ? realOperationList
+        : realOperationList.slice(0, dropdownDefaultShowNum)
     })
     const dropdownOperations = $computed(() => {
-      return !isDropdown
-        ? []
-        : allProps.operationList.slice(dropdownDefaultShowNum)
+      return !isDropdown ? [] : realOperationList.slice(dropdownDefaultShowNum)
     })
     const renderBtnItem = ({
       onClick,
       type,
       code,
       text,
-      icon,
       ...rest
     }: NsButtonProps) => {
       const params: NsTableBtnParams = { row, code }
@@ -48,7 +69,7 @@ export default defineComponent({
           }}
           {...rest}
         >
-          {text || icon}
+          {getText({ code, text })}
         </a-button>
       )
     }
@@ -66,7 +87,7 @@ export default defineComponent({
                     onClick?.(params)
                   }}
                 >
-                  {text}
+                  {getText({ code, text })}
                 </a-menu-item>
               )
             })}
@@ -76,7 +97,10 @@ export default defineComponent({
       return (
         <>
           <a-divider type="vertical" />
-          <a-dropdown v-slots={overlay}>
+          <a-dropdown
+            overlayClassName={'ns-operation-dropdown'}
+            v-slots={overlay}
+          >
             <span>
               {allProps?.operationConfig?.moreText}
               <DownOutlined />
@@ -89,7 +113,7 @@ export default defineComponent({
       const lastIndex = outerOperations.length - 1
 
       return (
-        <div>
+        <div class="ns-operation">
           {outerOperations.length > 0 &&
             outerOperations.map((item, index: number) => (
               <>

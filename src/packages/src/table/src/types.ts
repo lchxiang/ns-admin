@@ -11,11 +11,11 @@ export type NsTableBtnParams = {
   code?: string
 }
 export type NsButtonProps = Omit<ButtonProps, 'onClick'> & {
-  text?: string | Fn
+  text?: string
   alias?: string
   //是否为权限菜单
   isPermit?: boolean
-  show?: boolean | Fn
+  show?: boolean | string | ((params: NsTableBtnParams) => boolean)
   children?: NsButtonProps[]
   code?: string
   onClick?: (params: NsTableBtnParams) => void

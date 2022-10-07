@@ -73,7 +73,8 @@ const operationList = reactive<NsButtonProps[]>([
     text: '试试1',
     onClick({ row, code }) {
       console.log(row)
-    }
+    },
+    show: false
   },
   {
     text: '试试2',

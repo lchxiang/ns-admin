@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import Ns from '@/packages/index'
+import '@/packages/index.less'
 import { useVxeTable } from '@/plugins/vxe-table'
 import App from './App.vue'
 import '@/styles/theme-var.less'
