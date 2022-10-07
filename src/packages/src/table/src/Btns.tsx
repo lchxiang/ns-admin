@@ -1,7 +1,6 @@
 import { DownOutlined } from '@ant-design/icons-vue'
-import { isFunction } from 'xe-utils'
-import { cloneDeep } from 'lodash-es'
-import { isBoolean, isString } from '@/utils/is'
+import cloneDeep from 'lodash-es/cloneDeep'
+import { isBoolean, isFunction, isString } from '@/utils/is'
 import { useTableProviderContext } from './hooks/useTableContext'
 import { btnProps } from './props'
 import type { NsButtonProps } from './types'
@@ -56,8 +55,15 @@ export default defineComponent({
       const overlay = {
         overlay: () => (
           <a-menu>
-            {children.map((item, index) => (
-              <a-menu-item key={index}>{item.text}</a-menu-item>
+            {children.map(({ text, code, onClick }, index) => (
+              <a-menu-item
+                key={index}
+                onClick={() => {
+                  onClick?.({ code })
+                }}
+              >
+                {text}
+              </a-menu-item>
             ))}
           </a-menu>
         )
