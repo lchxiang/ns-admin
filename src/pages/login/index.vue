@@ -112,6 +112,29 @@ const btnList: NsButtonProps[] = [
   {
     text: '测试按钮',
     type: 'primary',
+    show: () => {
+      return true
+    },
+    onClick() {
+      console.log('测试呀')
+    }
+  },
+  {
+    text: '测试按钮',
+    type: 'primary',
+    children: [
+      {
+        text: '按钮1',
+        show: false
+      },
+      {
+        text: '按钮2',
+        show: true
+      }
+    ],
+    show: () => {
+      return true
+    },
     onClick() {
       console.log('测试呀')
     }

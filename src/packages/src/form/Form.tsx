@@ -246,7 +246,6 @@ export default defineComponent({
           )
         )
       }
-      console.log(isRender, 7778)
       return isRender && <div class={getFormClass}>{renderForm()}</div>
     }
   }
