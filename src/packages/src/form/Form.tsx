@@ -194,7 +194,7 @@ export default defineComponent({
     } as NsFormExpose)
 
     const getFormClass = $computed(() => {
-      return ['ns-form', `ns-form--${props.type}`]
+      return ['ns-form', `ns-form-${props.type}`]
     })
 
     return () => {
@@ -242,6 +242,7 @@ export default defineComponent({
               <a-row gutter={20} class="form-row" span={24}>
                 {unref(realFormList).map((formItem) => renderCol(formItem))}
               </a-row>
+              {getSlot(slots, 'btn', formModel.value)}
             </a-form>
           )
         )

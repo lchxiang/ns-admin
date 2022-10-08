@@ -222,10 +222,9 @@ export default defineComponent({
     const itemLabelWidthProp = useItemLabelWidth(formItem, formProps)
 
     return () => {
-      const { formItem, formModel } = props
+      const { formItem, formModel, formProps } = props
       const { tipsPlacement } = formItem
       const suffix = formItem.suffix
-      console.log(formModel, 452)
       const getSuffix = isFunction(suffix) ? suffix(unref(formModel)) : suffix
       const { labelCol, wrapperCol } = unref(itemLabelWidthProp)
 
@@ -240,7 +239,9 @@ export default defineComponent({
             v-show={isShow}
             {...getFormItemProps}
             rules={handleRules()}
-            label={renderLabelHelpMessage()}
+            label={
+              formProps.type === 'search' ? null : renderLabelHelpMessage()
+            }
             labelCol={labelCol}
             wrapperCol={wrapperCol}
           >

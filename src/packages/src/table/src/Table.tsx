@@ -217,22 +217,31 @@ export default defineComponent({
     } as NsTableExpose)
 
     return () => {
-      console.log(realOperationsConfig, 1410)
       const { formConfig, formList, btnList } = props
+
       const renderForm = () => {
+        if (formList.length === 0) return null
         return (
           <div>
             <NsForm
               ref={searchFormRef}
               {...formConfig}
               formList={formList}
+              type={'search'}
               v-model={[searchFormModel, 'modelValue']}
+              v-slots={{
+                btn: () => (
+                  <div class={'ns-form-searchWrap'}>
+                    <a-button onClick={refreshTable}>查询</a-button>
+                    <a-button onClick={resetTable}>重置</a-button>
+                  </div>
+                )
+              }}
             ></NsForm>
-            <a-button onClick={refreshTable}>查询</a-button>
-            <a-button onClick={resetTable}>重置</a-button>
           </div>
         )
       }
+
       const renderTable = () => {
         const gridSlots = {
           operation: (scope) => (

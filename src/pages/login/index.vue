@@ -10,6 +10,7 @@
       url="/user/queryPage"
       :columns="clomunList"
       :btn-list="btnList"
+      :form-list="formList"
       :operation-config="operationConfig"
       :operation-list="operationList"
     />
@@ -49,6 +50,7 @@ const formList = ref<NsFormItem[]>([
   {
     component: 'Radio',
     slot: 'test',
+    isNormal: true,
     label: '单选',
     options: [1, 2],
     defaultValue: 1
