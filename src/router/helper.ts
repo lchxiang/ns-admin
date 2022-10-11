@@ -19,7 +19,7 @@ export const getAllBtn = (list) => {
   }, {})
 }
 
-const modules = import.meta.glob('../views/**/**/**/*.vue')
+// const modules = import.meta.glob('../views/**/**/**/*.vue')
 export const getRoute = (list, props = false) => {
   if (!list || list.length === 0) return []
   let route: RouteRecordRaw[] = []
@@ -32,7 +32,8 @@ export const getRoute = (list, props = false) => {
       children,
       pageType = 'layout'
     } = item
-    const component = modules[`../views${componentUrl}.vue`]
+    // const component = modules[`../views${componentUrl}.vue`]
+    const component = () => import(`@/views${componentUrl}.vue`)
     if (componentUrl && url) {
       if (pageType === 'page') {
         route.push({

@@ -18,14 +18,13 @@
         <a-button type="primary" @click="login">登录</a-button>
       </template>
     </ns-form>
-    <!-- <ns-table : /> -->
+    <!-- <ns-table    /> -->
   </div>
 </template>
 <script lang="ts" setup>
-import http from '@/utils/http'
 import { useUserStore } from '@/store/user'
 import type { NsFormInstance, NsFormItem } from '@/packages/src/form/types'
-import type { LoginForm, LoginResult } from './types'
+import type { LoginForm } from './types'
 const formModel = $ref<LoginForm>()
 const loginFormRef = $ref<NsFormInstance>()
 const formList = ref<NsFormItem[]>([
@@ -45,11 +44,8 @@ const formList = ref<NsFormItem[]>([
 const userStore = useUserStore()
 const login = () => {
   loginFormRef.validate().then(async () => {
-    const { token } = await http.post<LoginResult>({
-      url: '/login',
-      data: formModel
-    })
-    userStore.token = token
+    await userStore.login(formModel)
+    await userStore.getUserMenu()
   })
 }
 </script>

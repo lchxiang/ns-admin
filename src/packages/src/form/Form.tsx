@@ -234,7 +234,7 @@ export default defineComponent({
         return (
           isInitDefaultValue && (
             <a-form
-              ref="formRef"
+              ref={formRef}
               model={formModel}
               disabled={disabled}
               validateOnRuleChange={validateOnRuleChange}
