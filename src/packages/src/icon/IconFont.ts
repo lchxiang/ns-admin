@@ -3,14 +3,14 @@
  * @Author: liwg
  * @Date: 2022-07-13 19:57:28
  * @LastEditors: liwg
- * @LastEditTime: 2022-09-03 10:28:28
+ * @LastEditTime: 2022-10-09 16:54:28
  */
 import { createFromIconfontCN } from '@ant-design/icons-vue'
 
 import { isDev } from '@/utils/env'
 
 // 定义iconfont库
-const iconfontVersion = ['3508681_g471vxm86lv']
+const iconfontVersion = ['3693790_0v00k9jrlsl']
 // const iconfontUrlCss = `//at.alicdn.com/t/font_$key.css`
 const iconfontUrljs = `https://at.alicdn.com/t/c/font_$key.js`
 

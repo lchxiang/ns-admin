@@ -9,6 +9,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
 import { presetAttributify, presetIcons, presetUno } from 'unocss'
 import viteCompression from 'vite-plugin-compression' //压缩静态资源
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import legacy from '@vitejs/plugin-legacy'
 import {
   VxeTableResolve,
@@ -73,6 +74,10 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         // 为打包后的文件提供传统浏览器兼容性支持
         targets: ['> 1%, last 1 version, ie >= 11'], // 需要兼容的浏览器列表
         additionalLegacyPolyfills: ['regenerator-runtime/runtime']
+      }),
+      createSvgIconsPlugin({
+        iconDirs: [resolve(__dirname, 'src/assets/svg')],
+        symbolId: 'icon-[dir]-[name]'
       })
     ],
 

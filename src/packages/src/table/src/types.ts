@@ -1,3 +1,10 @@
+/*
+ * @description:
+ * @Author: liwg
+ * @Date: 2022-10-09 08:58:16
+ * @LastEditors: liwg
+ * @LastEditTime: 2022-10-11 09:47:10
+ */
 import type { nsTableProps } from './props'
 import type { ComponentPublicInstance, ExtractPropTypes, Ref } from 'vue'
 import type { ButtonProps } from 'ant-design-vue'
@@ -10,6 +17,7 @@ export type NsTableBtnParams = {
   row?: Recordable
   code?: string
 }
+
 export type NsButtonProps = Omit<ButtonProps, 'onClick'> & {
   text?: string
   alias?: string

@@ -2,7 +2,7 @@
  * @Author: liwg
  * @Date: 2022-03-19 20:13:09
  * @LastEditors: liwg
- * @LastEditTime: 2022-07-03 20:52:53
+ * @LastEditTime: 2022-10-09 16:41:47
  */
 import { vueTypes } from '@/utils/vueTypes'
 import type {
@@ -132,6 +132,7 @@ export const formProps = {
     type: [String, Number] as PropType<string | number>,
     default: 80
   },
+  class: vueTypes.string,
   formFormat: {
     type: Function as PropType<Fn>
   }

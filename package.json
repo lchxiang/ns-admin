@@ -57,6 +57,7 @@
     "vite": "^3.1.0",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-style-import": "^2.0.0",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-global-api": "^0.4.1",
     "vue-tsc": "^0.40.4",
     "vue-types": "^4.2.1"

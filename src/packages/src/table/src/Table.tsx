@@ -5,6 +5,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import isUndefined from 'lodash-es/isUndefined'
 import { filterTree } from 'xe-utils'
 import pick from 'lodash-es/pick'
+import { RightOutlined } from '@ant-design/icons-vue'
 import http from '@/utils/http'
 import { isArray, isBoolean, isFunction, isObject, isString } from '@/utils/is'
 import { getValueByPath } from '../../helper'
@@ -40,6 +41,7 @@ export default defineComponent({
       gridConfig: globalGridConfig,
       operationConfig: globalOperationConfig
     } = $(useNsProviderContext())
+
     //============================================props============================================
     async function setProps(gridProps: NsTableProps) {
       innerProps = merge(innerProps || {}, gridProps)
@@ -47,6 +49,7 @@ export default defineComponent({
     const realProps = $computed(() => {
       return { ...props, ...innerProps }
     })
+
     //============================================GridConfig============================================
     //默认配置
     const defaultGridConfig: VxeGridProps = {
@@ -61,6 +64,7 @@ export default defineComponent({
         }
       }
     }
+
     //全局匹配置、组件自定义配置、默认配置合并=>最终表格配置
     const realGridConfig = $computed(() => {
       const config = merge(
@@ -135,7 +139,7 @@ export default defineComponent({
       return []
     })
 
-    ///////////////////////////////////////列配置////////////////////////////////////
+    //============================================列配置============================================
     let columnSlotsName = $ref<string[]>([])
 
     //columns 处理
@@ -183,7 +187,7 @@ export default defineComponent({
       }
       return columns
     })
-    /////////////////////////////////////event//////////////////////////////////
+    //============================================event============================================
     const refreshTable = function (type = 'query') {
       vxeGridRef.value?.commitProxy(type)
     }
@@ -193,6 +197,34 @@ export default defineComponent({
       refreshTable()
     }
 
+    //TODO: 提取
+    //============================================更多查询处理============================================
+    let isShowMoreBtn = $ref(false)
+    let searchWrapFullHeight = $ref(47)
+    const getMoreBtnState = function () {
+      const searchWraps = searchFormRef.value?.$el.querySelector('.form-row')
+      if (searchWraps) {
+        const offsetHeight = searchWraps.offsetHeight
+        searchWrapFullHeight = offsetHeight
+        isShowMoreBtn = offsetHeight > 60
+      }
+    }
+
+    //更多查询切换
+    let isShowAllSearch = $ref(false)
+    const toggleMoreSearch = function () {
+      const searchFormWraps =
+        searchFormRef.value?.$el.querySelector('.ant-form')
+      isShowAllSearch = !isShowAllSearch
+      searchFormWraps.style.height = `${
+        isShowAllSearch ? searchWrapFullHeight : 47
+      }px`
+    }
+
+    useResizeObserver(document.body, () => {
+      getMoreBtnState()
+    })
+
     const methods: NsTableMethods = {
       setProps,
       refreshTable,
@@ -201,6 +233,7 @@ export default defineComponent({
 
     onMounted(() => {
       emit('register', methods)
+      getMoreBtnState()
     })
 
     const permit = computed(() => realProps.permit)
@@ -218,7 +251,7 @@ export default defineComponent({
 
     return () => {
       const { formConfig, formList, btnList } = props
-
+      //UpOutlined
       const renderForm = () => {
         if (formList.length === 0) return null
         return (
@@ -231,9 +264,29 @@ export default defineComponent({
               v-model={[searchFormModel, 'modelValue']}
               v-slots={{
                 btn: () => (
-                  <div class={'ns-form-searchWrap'}>
-                    <a-button onClick={refreshTable}>查询</a-button>
-                    <a-button onClick={resetTable}>重置</a-button>
+                  <div class={'ns-form-search-wrap'}>
+                    {isShowMoreBtn && (
+                      <a-button
+                        class="btn-more"
+                        type={'link'}
+                        onClick={toggleMoreSearch}
+                      >
+                        更多查询
+                        <RightOutlined
+                          class={isShowAllSearch ? 'down' : 'up'}
+                        />
+                      </a-button>
+                    )}
+                    <a-button
+                      class="btn-submit"
+                      type={'primary'}
+                      onClick={refreshTable}
+                    >
+                      查询
+                    </a-button>
+                    <a-button class="btn-reset" onClick={resetTable}>
+                      重置
+                    </a-button>
                   </div>
                 )
               }}

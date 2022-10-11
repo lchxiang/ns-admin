@@ -194,7 +194,7 @@ export default defineComponent({
     } as NsFormExpose)
 
     const getFormClass = $computed(() => {
-      return ['ns-form', `ns-form-${props.type}`]
+      return ['ns-form', `ns-form-${props.type}`, props.class || '']
     })
 
     return () => {

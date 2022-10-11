@@ -1,5 +1,43 @@
+
 .ns-form-search {
   .ns-item-container {
-    flex-basis: 240px;
+    float: left;
+    width: 220px;
+  }
+  .ant-form {
+    transition: height 0.5s ease-out;
+    overflow: hidden;
+    height: 47px;
+    &>div {
+      float: left;
+    }
+    .form-row {
+      max-width: calc(100% - 240px);
+    }
+    .ant-form-item {
+      margin-bottom: 15px;
+    }
+  }
+  .form-row {
+    display: block;
+  }
+  .ns-form-search-wrap {
+    float: left;
+    width: 240px;
+    .btn-more {
+      padding: 4px;
+      .anticon {
+        transition: transform 0.3s ease-out;
+        transform: rotate(0);
+        margin-left: 3px;
+        &.down {
+          transform: rotate(90deg);
+        }
+      }
+
+    }
+    .btn-submit {
+      margin: 0 10px;
+    }
   }
 }
