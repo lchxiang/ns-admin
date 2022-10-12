@@ -19,4 +19,6 @@
 <script lang="ts" setup>
 import LayoutSider from './sider/LayoutSider'
 </script>
-<style lang="less" scoped></style>
+<style lang="less">
+@import './style/index.less';
+</style>
