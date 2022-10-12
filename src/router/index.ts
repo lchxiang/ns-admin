@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import { getAppEnvConfig } from '@/utils/env'
 import { useUserStore } from '@/store/user'
 import { constantRouter } from './constant-route'
 import type { App } from 'vue'
+
 const envConfig = getAppEnvConfig()
 export const router = createRouter({
   history: createWebHistory(envConfig.shortName),
@@ -14,12 +14,18 @@ export const router = createRouter({
 
 const whiteList = ['Login']
 
-router.beforeEach((to, _from, next) => {
-  const { token } = useUserStore()
+router.beforeEach(async (to, _from, next) => {
+  const { token, firstRouteName, userMenus, getUserMenu } = useUserStore()
   if (token) {
-    if (to.name === 'Login') {
+    if (userMenus.length === 0) {
+      await getUserMenu()
       next({
-        name: 'activityList',
+        name: firstRouteName,
+        replace: true
+      })
+    } else if (to.name === 'Login') {
+      next({
+        name: firstRouteName,
         replace: true
       })
     } else {

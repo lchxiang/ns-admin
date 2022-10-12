@@ -107,6 +107,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     },
     server: {
       port: 9527,
+      host: '192.168.10.182',
       open: true,
       hmr: true,
       proxy: {

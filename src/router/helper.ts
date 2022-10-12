@@ -3,10 +3,11 @@
  * @Author: liwg
  * @Date: 2022-10-11 10:06:46
  * @LastEditors: liwg
- * @LastEditTime: 2022-10-11 10:08:51
+ * @LastEditTime: 2022-10-12 10:23:33
  */
+import findTree from 'xe-utils/findTree'
+import type { MenuItem } from './types'
 import type { RouteRecordRaw } from 'vue-router'
-
 export const getAllBtn = (list) => {
   if (!list || list.length < 0) {
     return {}
@@ -19,8 +20,16 @@ export const getAllBtn = (list) => {
   }, {})
 }
 
-// const modules = import.meta.glob('../views/**/**/**/*.vue')
-export const getRoute = (list, props = false) => {
+//找到第一个权限路由 routeName
+export function getFirstRouteName(menus: MenuItem[]) {
+  const firstRouteMenu = findTree(menus, ({ routeName, componentUrl, url }) => {
+    return (routeName && componentUrl && url) as unknown as boolean
+  })
+  return firstRouteMenu.item.routeName
+}
+
+const modules = import.meta.glob('../views/**/**/**/*.vue')
+export const getRoutes = (list: MenuItem[], props = false) => {
   if (!list || list.length === 0) return []
   let route: RouteRecordRaw[] = []
   list.forEach((item) => {
@@ -32,8 +41,8 @@ export const getRoute = (list, props = false) => {
       children,
       pageType = 'layout'
     } = item
-    // const component = modules[`../views${componentUrl}.vue`]
-    const component = () => import(`@/views${componentUrl}.vue`)
+    const component = modules[`../views${componentUrl}.vue`]
+    // const component = () => import(`@/views${componentUrl}.vue`)
     if (componentUrl && url) {
       if (pageType === 'page') {
         route.push({
@@ -49,7 +58,7 @@ export const getRoute = (list, props = false) => {
         route.push({
           path: url,
           redirect: { name: routeName },
-          component: () => import('@/pages/layout/index.vue'),
+          component: () => import('@/pages/layout/default/index.vue'),
           children: [
             {
               path: url,
@@ -65,7 +74,7 @@ export const getRoute = (list, props = false) => {
       }
     }
     if (children && children.length > 0) {
-      route = [...route, ...getRoute(children, props)]
+      route = [...route, ...getRoutes(children, props)]
     }
   })
   return route

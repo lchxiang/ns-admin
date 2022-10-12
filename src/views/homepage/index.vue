@@ -6,7 +6,7 @@
  * @LastEditTime: 2022-10-11 13:33:09
 -->
 <template>
-  <div />
+  <div>首页</div>
 </template>
 <script lang="ts" setup></script>
 <style lang="less" scoped></style>
