@@ -3,14 +3,14 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { isBoolean, isFunction, isString } from '@/utils/is'
 import { useTableProviderContext } from './hooks/useTableContext'
 import { btnProps } from './props'
-import type { NsButtonProps } from './types'
+import type { NsBtnProps } from './types'
 export default defineComponent({
   name: 'GridBtns',
   props: btnProps,
   setup(props) {
     const { permit } = $(useTableProviderContext())
 
-    const getItemIsShow = ({ code, show, isPermit }: NsButtonProps) => {
+    const getItemIsShow = ({ code, show, isPermit }: NsBtnProps) => {
       let isShow = true
       if (permit && isFunction(permit) && isPermit !== false) {
         isShow = permit()
@@ -44,14 +44,10 @@ export default defineComponent({
           list.push(item)
         }
         return list
-      }, [] as NsButtonProps[])
+      }, [] as NsBtnProps[])
     })
 
-    const renderDropdown = ({
-      children = [],
-      text,
-      ...rest
-    }: NsButtonProps) => {
+    const renderDropdown = ({ children = [], text, ...rest }: NsBtnProps) => {
       const overlay = {
         overlay: () => (
           <a-menu>
@@ -78,8 +74,9 @@ export default defineComponent({
       )
     }
 
-    const renderBtn = ({ text, icon, ...rest }: NsButtonProps) => (
+    const renderBtn = ({ text, icon, ...rest }: NsBtnProps) => (
       <a-button
+        type="primary"
         {...rest}
         v-slots={{
           icon: () => <i class={icon}></i>

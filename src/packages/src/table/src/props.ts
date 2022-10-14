@@ -1,6 +1,7 @@
 import type {
-  NsButtonProps,
+  NsBtnProps,
   NsColumnProps,
+  NsOperationProps,
   OperationConfig,
   permitType
 } from './types'
@@ -9,14 +10,14 @@ import type { VxeGridProps } from 'vxe-table'
 
 export const btnProps = {
   btnList: {
-    type: Array as PropType<NsButtonProps[]>,
+    type: Array as PropType<NsBtnProps[]>,
     default: () => []
   }
 }
 //表格操作props、类型
 export const operationProps = {
   operationList: {
-    type: Array as PropType<NsButtonProps[]>,
+    type: Array as PropType<NsOperationProps[]>,
     default: () => []
   },
   // 操作设置
@@ -44,7 +45,7 @@ export const nsTableProps = {
     default: undefined
   },
   btnList: {
-    type: Array as PropType<NsButtonProps[]>,
+    type: Array as PropType<NsBtnProps[]>,
     default: () => []
   },
   loadSuccess: {

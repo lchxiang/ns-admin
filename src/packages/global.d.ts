@@ -6,6 +6,7 @@
  * @LastEditTime: 2022-10-10 10:14:08
  */
 // GlobalComponents for Volar
+import type NsQrcode from './src/qrcode/index'
 import type NsCheckbox from './src/checkbox/index'
 import type NsSelect from './src/select/index'
 import type NsRadio from './src/radio/index'
@@ -20,5 +21,6 @@ declare module '@vue/runtime-core' {
     NsForm: typeof NsForm
     NsTable: typeof NsTable
     NsIcon: typeof NsIcon
+    NsQrcode: typeof NsQrcode
   }
 }

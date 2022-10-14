@@ -3,7 +3,7 @@
  * @Author: liwg
  * @Date: 2022-09-30 09:41:21
  * @LastEditors: liwg
- * @LastEditTime: 2022-10-12 10:01:49
+ * @LastEditTime: 2022-10-13 10:00:33
  */
 import { defineStore } from 'pinia'
 import http from '@/utils/http'
@@ -52,7 +52,6 @@ export const useUserStore = defineStore(
         addRoutes.forEach((item) => {
           router.addRoute(item)
         })
-        router.push({ name: firstRouteName })
       }
     }
 

@@ -1,3 +1,10 @@
+<!--
+ * @description: 
+ * @Author: liwg
+ * @Date: 2022-09-30 09:41:21
+ * @LastEditors: liwg
+ * @LastEditTime: 2022-10-13 13:53:36
+-->
 <template>
   <ConfigProvider>
     <router-view />
@@ -5,6 +12,9 @@
 </template>
 <script setup lang="ts">
 import { ConfigProvider } from 'ant-design-vue'
+// ConfigProvider.config({
+//   theme: 'light'
+// })
 </script>
 <style lang="less">
 .theme {

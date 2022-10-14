@@ -3,7 +3,11 @@ import { isFunction } from 'xe-utils'
 import { isBoolean, isString } from '@/utils/is'
 import { operationProps } from './props'
 import { useTableProviderContext } from './hooks/useTableContext'
-import type { NsButtonProps, NsTableBtnParams, OperationConfig } from './types'
+import type {
+  NsOperationProps,
+  NsTableBtnParams,
+  OperationConfig
+} from './types'
 import type { ExtractPropTypes } from 'vue'
 import type { VxeTableDefines } from 'vxe-table'
 type OperationAllProps = ExtractPropTypes<typeof operationProps> &
@@ -37,7 +41,7 @@ export default defineComponent({
       })
     })
 
-    const getText = ({ text, alias }: NsButtonProps) => {
+    const getText = ({ text, alias }: NsOperationProps) => {
       return text || alias || permit?.()
     }
 
@@ -59,7 +63,7 @@ export default defineComponent({
       code,
       text,
       ...rest
-    }: NsButtonProps) => {
+    }: NsOperationProps) => {
       const params: NsTableBtnParams = { row, code }
       return (
         <a-button

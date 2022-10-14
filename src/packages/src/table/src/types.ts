@@ -14,18 +14,26 @@ import type { NsFormInstance } from '../../form/index'
 export type permitType = Fn<any, boolean>
 
 export type NsTableBtnParams = {
-  row?: Recordable
+  row: Recordable
   code?: string
 }
 
-export type NsButtonProps = Omit<ButtonProps, 'onClick'> & {
+export type NsBtnProps = Omit<ButtonProps, 'onClick'> & {
   text?: string
   alias?: string
   //是否为权限菜单
   isPermit?: boolean
-  show?: boolean | string | ((params: NsTableBtnParams) => boolean)
-  children?: NsButtonProps[]
+  show?: boolean | string | ((params: Partial<NsTableBtnParams>) => boolean)
+  children?: NsBtnProps[]
   code?: string
+  onClick?: (params: Partial<NsTableBtnParams>) => void
+}
+
+export type NsOperationProps = Omit<
+  NsBtnProps,
+  'onClick' | 'show' | 'children'
+> & {
+  show?: boolean | string | ((params: NsTableBtnParams) => boolean)
   onClick?: (params: NsTableBtnParams) => void
 }
 

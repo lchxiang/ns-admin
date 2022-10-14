@@ -11,8 +11,17 @@ import NsRadio from './src/radio/index'
 import NsForm from './src/form/index'
 import NsTable from './src/table/index'
 import NsIcon from './src/icon/index'
+import NsQrcode from './src/qrcode/index'
 
-const componentList = [NsCheckbox, NsSelect, NsRadio, NsForm, NsTable, NsIcon]
+const componentList = [
+  NsCheckbox,
+  NsSelect,
+  NsRadio,
+  NsForm,
+  NsTable,
+  NsIcon,
+  NsQrcode
+]
 export default {
   install(app) {
     componentList.forEach((component) => {

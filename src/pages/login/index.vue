@@ -3,7 +3,7 @@
  * @Author: liwg
  * @Date: 2022-09-30 09:41:21
  * @LastEditors: liwg
- * @LastEditTime: 2022-10-11 19:56:05
+ * @LastEditTime: 2022-10-13 11:50:25
 -->
 <template>
   <div class="login-page">
@@ -18,7 +18,7 @@
         <a-button type="primary" @click="login">登录</a-button>
       </template>
     </ns-form>
-    <!-- <ns-table    /> -->
+    <!-- <ns-table :/> -->
   </div>
 </template>
 <script lang="ts" setup>

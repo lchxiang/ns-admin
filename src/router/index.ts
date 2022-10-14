@@ -1,3 +1,10 @@
+/*
+ * @description:
+ * @Author: liwg
+ * @Date: 2022-09-30 09:41:21
+ * @LastEditors: liwg
+ * @LastEditTime: 2022-10-13 10:03:16
+ */
 import { createRouter, createWebHistory } from 'vue-router'
 import { getAppEnvConfig } from '@/utils/env'
 import { useUserStore } from '@/store/user'
@@ -19,10 +26,7 @@ router.beforeEach(async (to, _from, next) => {
   if (token) {
     if (userMenus.length === 0) {
       await getUserMenu()
-      next({
-        name: firstRouteName,
-        replace: true
-      })
+      next({ ...to })
     } else if (to.name === 'Login') {
       next({
         name: firstRouteName,
