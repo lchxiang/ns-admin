@@ -29,6 +29,7 @@ specifiers:
   postcss-html: ^1.5.0
   postcss-less: ^6.0.0
   prettier: ^2.7.1
+  qr-code-styling: ^1.6.0-rc.1
   qs: ^6.11.0
   rimraf: ^3.0.2
   stylelint: ^14.11.0
@@ -58,6 +59,7 @@ dependencies:
   lodash-es: 4.17.21
   pinia: 2.0.22_typescript@4.8.3+vue@3.2.40
   pinia-plugin-persistedstate: 2.2.0_pinia@2.0.22
+  qr-code-styling: 1.6.0-rc.1
   qs: 6.11.0
   vue: 3.2.40
   vue-router: 4.1.5_vue@3.2.40
@@ -4742,6 +4744,16 @@ packages:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
     dev: true
+
+  /qr-code-styling/1.6.0-rc.1:
+    resolution: {integrity: sha512-ModRIiW6oUnsP18QzrRYZSc/CFKFKIdj7pUs57AEVH20ajlglRpN3HukjHk0UbNMTlKGuaYl7Gt6/O5Gg2NU2Q==}
+    dependencies:
+      qrcode-generator: 1.4.4
+    dev: false
+
+  /qrcode-generator/1.4.4:
+    resolution: {integrity: sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==}
+    dev: false
 
   /qs/6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}

@@ -3,7 +3,7 @@
  * @Author: liwg
  * @Date: 2022-10-09 08:58:16
  * @LastEditors: liwg
- * @LastEditTime: 2022-10-10 10:14:08
+ * @LastEditTime: 2022-10-17 15:48:11
  */
 // GlobalComponents for Volar
 import type NsQrcode from './src/qrcode/index'
